@@ -9,7 +9,7 @@ def f(t, y):
     return y
 
 
-N = 5
+N = 50
 x_plot = np.linspace(0, 5, N + 1)
 x_plot_analytical = np.linspace(0, 5, 100000)
 
@@ -28,6 +28,8 @@ plt.show()
 mu_plot = (np.exp(1j * theta_plot)**3 - np.exp(1j * theta_plot)) / (7/3 * np.exp(1j * theta_plot)**2 - 2/3 * np.exp(1j * theta_plot) + 1/3)
 plt.plot(np.real(mu_plot), np.imag(mu_plot))
 plt.show()
+
+
 
 
 
