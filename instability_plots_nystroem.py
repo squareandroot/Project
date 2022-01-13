@@ -7,7 +7,7 @@ def f(t, y):
     return -y
 
 
-fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(6, 12))
+fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(12, 3))
 stepsizes = [4, 8, 16]
 
 x = np.linspace(0, 1, 1000)
