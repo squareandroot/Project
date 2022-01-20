@@ -106,26 +106,28 @@ int main(int argc, char *argv[])
     string arg2(argv[2]);
     string arg3(argv[3]);
 
-    string filename = "./out/out-" + arg1 + "-" + arg2 + "-" + arg3 + ".dat";
+    string filename_RK4 = "./out/RK4-" + arg3 + ".dat";
+    string filename_AB4 = "./out/AB4-" + arg3 + ".dat";
 
     vector<double> solution_RK4 = RK4(start, end, n, 1, *f, exec_time);
     int n_RK4 = solution_RK4.size();
-    ofstream fs(filename);
-    fs.precision(15);
-    fs << "RK4" << endl;
-    fs << exec_time << " ns" << endl;
+    ofstream fs1(filename_RK4);
+    fs1.precision(15);
+    fs1 << exec_time << " ns" << endl;
     for (int i = 0; i < n_RK4; i++)
     {
-        fs << solution_RK4[i] << endl;
+        fs1 << solution_RK4[i] << endl;
     }
+    fs1.close();
 
     vector<double> solution_AB4 = AdamsBashforth4(start, end, n, 1, *f, exec_time);
     int n_AB4 = solution_AB4.size();
-    fs << "AdamsBashforth4" << endl;
-    fs << exec_time << " ns" << endl;
+    ofstream fs2(filename_AB4);
+    fs2.precision(15);
+    fs2 << exec_time << " ns" << endl;
     for (int i = 0; i < n_AB4; i++)
     {
-        fs << solution_AB4[i] << endl;
+        fs2 << solution_AB4[i] << endl;
     }
-    fs.close();
+    fs2.close();
 }
