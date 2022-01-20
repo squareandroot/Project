@@ -4,6 +4,7 @@
 #include <cmath>
 #include <chrono>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -101,9 +102,15 @@ int main(int argc, char *argv[])
     double end = atof(argv[2]);
     double n = atof(argv[3]);
 
+    string arg1(argv[1]);
+    string arg2(argv[2]);
+    string arg3(argv[3]);
+
+    string filename = "./out/out-" + arg1 + "-" + arg2 + "-" + arg3 + ".dat";
+
     vector<double> solution_RK4 = RK4(start, end, n, 1, *f, exec_time);
     int n_RK4 = solution_RK4.size();
-    ofstream fs("out.dat");
+    ofstream fs(filename);
     fs.precision(15);
     fs << "RK4" << endl;
     fs << exec_time << " ns" << endl;
