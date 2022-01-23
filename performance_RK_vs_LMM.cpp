@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
     fs3 << exec_time << " ns" << endl;
     for (int i = 0; i < n_AB5; i++)
     {
-        fs3 << solution_AB4[i] << endl;
+        fs3 << solution_AB5[i] << endl;
     }
     fs3.close();
 }
