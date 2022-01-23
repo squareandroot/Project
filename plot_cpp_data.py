@@ -12,6 +12,8 @@ timings_RK4 = list()
 data_RK4 = list()
 timings_AB4 = list()
 data_AB4 = list()
+timings_AB5 = list()
+data_AB5 = list()
 
 for k in step_sizes:
     filepath = "./out/RK4-" + str(k) + ".dat"
@@ -34,14 +36,26 @@ for k in step_sizes:
             else:
                 y_temp.append(float(l.strip()))
         data_AB4.append(np.linalg.norm(np.exp(t_space) - y_temp))
+    filepath = "./out/AB5-" + str(k) + ".dat"
+    with open(filepath) as fhand:
+        t_space = np.linspace(0, 1, k + 1)
+        y_temp = list()
+        for i, l in enumerate(fhand):
+            if i == 0:
+                timings_AB5.append(float(l.strip(' ns\n')))
+            else:
+                y_temp.append(float(l.strip()))
+        data_AB5.append(np.linalg.norm(np.exp(t_space) - y_temp))
 
 fig, ax1 = plt.subplots()
 ax1.loglog(step_sizes, data_AB4, "o-", color="goldenrod", label="AB4")
+ax1.loglog(step_sizes, data_AB5, "o-", color="peru", label="AB5")
 ax1.loglog(step_sizes, data_RK4, "o-", color="peru", label="RK4")
 ax1.set_ylabel("Absolute Error")
 ax1.legend(loc=6)
 ax2 = ax1.twinx()
 ax2.loglog(step_sizes, timings_AB4, "o-", color="midnightblue", label="AB4")
+ax2.loglog(step_sizes, timings_AB5, "o-", color="midnightblue", label="AB5")
 ax2.loglog(step_sizes, timings_RK4, "o-", color="cornflowerblue", label="RK4")
 ax2.set_ylabel("Execution time [ns]")
 ax2.legend(loc=7)

@@ -90,6 +90,42 @@ vector<double> AdamsBashforth4(const double &t0, const double &tn, const int &n,
     return y;
 }
 
+vector<double> AdamsBashforth5(const double &t0, const double &tn, const int &n, const double &y0, double (*func)(double, double), double &exec_time)
+{
+    double h = (tn - t0) / n;
+    vector<double> t = linspace(t0, tn, n + 1);
+    vector<double> y(n + 1);
+    vector<double> y_start = RK4(t0, t0 + 4 * h, 4, y0, *func, exec_time);
+
+    y[0] = y_start[0];
+    y[1] = y_start[1];
+    y[2] = y_start[2];
+    y[3] = y_start[3];
+    y[4] = y_start[4];
+
+    auto t1 = chrono::high_resolution_clock::now();
+
+    double K1 = func(t[3], y[3]);
+    double K2 = func(t[2], y[2]);
+    double K3 = func(t[1], y[1]);
+    double K4 = func(t[0], y[0]);
+    double K5;
+    for (int i = 4; i < n; i++)
+    {
+        K5 = K4;
+        K4 = K3;
+        K3 = K2;
+        K2 = K1;
+        K1 = func(t[i], y[i]);
+        y[i + 1] = y[i] + h / 720 * (1901 * K1 - 2774 * K2 + 2616 * K3 - 1274 * K4 + 251 * K5);
+    }
+
+    auto t2 = chrono::high_resolution_clock::now();
+
+    exec_time = chrono::duration_cast<chrono::nanoseconds>(t2 - t1).count();
+    return y;
+}
+
 double f(double t, double y)
 {
     return y;
@@ -108,6 +144,7 @@ int main(int argc, char *argv[])
 
     string filename_RK4 = "./out/RK4-" + arg3 + ".dat";
     string filename_AB4 = "./out/AB4-" + arg3 + ".dat";
+    string filename_AB5 = "./out/AB5-" + arg3 + ".dat";
 
     vector<double> solution_RK4 = RK4(start, end, n, 1, *f, exec_time);
     int n_RK4 = solution_RK4.size();
@@ -130,4 +167,15 @@ int main(int argc, char *argv[])
         fs2 << solution_AB4[i] << endl;
     }
     fs2.close();
+
+    vector<double> solution_AB5 = AdamsBashforth5(start, end, n, 1, *f, exec_time);
+    int n_AB5 = solution_AB5.size();
+    ofstream fs3(filename_AB5);
+    fs3.precision(15);
+    fs3 << exec_time << " ns" << endl;
+    for (int i = 0; i < n_AB5; i++)
+    {
+        fs3 << solution_AB4[i] << endl;
+    }
+    fs3.close();
 }
