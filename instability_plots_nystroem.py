@@ -2,6 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from nystroem_k2 import Nystroem2
 
+"""
+Plot the error for a two step Nyström method
+with different starting procedures.
+"""
+
 
 def f(t, y):
     return -y

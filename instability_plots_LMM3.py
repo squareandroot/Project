@@ -1,6 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from lmm_k3_unstable import LMM3
+from lmm3_k3_multiple_roots import LMM3_multiple_roots
+from adams_bashforth_k3 import AdamsBashforth3
+
+
+"""
+Plot the instability for a linear multistep method
+using different step sizes
+"""
 
 
 def f(t, y):
@@ -36,6 +44,12 @@ plt.savefig('./plots/instability_LMM3.pdf',
             bbox_inches='tight', pad_inches=0.05)
 
 
+"""
+Plot solution for slightly perturbed starting values
+which shows zero-instability
+"""
+
+
 def g(t, y):
     return 0
 
@@ -66,4 +80,26 @@ plt.plot(x[-8:], y_sol[-8:], label='Analytical solution')
 plt.legend(loc=6)
 
 plt.savefig('./plots/zero_instability_LMM3.pdf',
+            bbox_inches='tight', pad_inches=0.05)
+
+
+"""
+Plot error for a method where
+characteristic polynomial has a double root at one
+"""
+
+N = 100
+x = np.linspace(0, 1, N + 1)
+y_Bash = AdamsBashforth3(0, 1, N, 1, f)
+y_LMM3 = LMM3_multiple_roots(0, 1, N, 1, f)
+error_Bash = abs(y_Bash - np.exp(x))
+error_LMM3 = abs(y_LMM3 - np.exp(x))
+
+plt.figure()
+plt.plot(x, error_Bash, label='Adams-Bashforth')
+plt.plot(x, error_LMM3, label='Multiple root at 1')
+
+plt.legend()
+
+plt.savefig('./plots/multiple_root_LMM3.pdf',
             bbox_inches='tight', pad_inches=0.05)

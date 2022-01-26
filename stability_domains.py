@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import nodepy.linear_multistep_method as lm
 
+"""
+Plot the stability domains for three multistep methods
+"""
+
 ab3 = lm.Adams_Bashforth(3)
 am3 = lm.Adams_Moulton(3)
 ny3 = lm.Nystrom(3)
