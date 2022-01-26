@@ -74,8 +74,8 @@ y = LMM3_zero(0, 1, N, 1, g)
 y_sol = np.ones(N + 1)
 
 plt.figure()
-plt.plot(x[-8:], y[-8:], label='Numerical solution')
 plt.plot(x[-8:], y_sol[-8:], label='Analytical solution')
+plt.plot(x[-8:], y[-8:], label='Numerical solution')
 
 plt.legend(loc=6)
 
