@@ -32,4 +32,34 @@ axes[0].set_title(r'$h = 0.1$')
 axes[1].set_title(r'$h = 0.05$')
 axes[2].set_title(r'$h = 0.025$')
 
-plt.savefig('./plots/instability_LMM3.pdf', bbox_inches='tight', pad_inches=0.05)
+plt.savefig('./plots/instability_LMM3.pdf',
+            bbox_inches='tight', pad_inches=0.05)
+
+
+def g(t, y):
+    return 0
+
+
+def LMM3_zero(t0, tn, n, y0, f):
+    h = abs(tn - t0) / n
+    t = np.linspace(t0, tn, n+1)
+    y = np.zeros(n+1)
+    y[0] = y0
+    y[1] = y0 + 1e-15
+    K1 = f(t[0], y[0])
+    for i in range(1, n):
+        K2 = K1
+        K1 = f(t[i], y[i])
+        y[i+1] = h * (4 * K1 + 2 * K2) - 4 * y[i] + 5 * y[i-1]
+    return y
+
+
+N = 36
+x = np.linspace(0, 1, N + 1)
+y = LMM3_zero(0, 1, N, 1, g)
+
+plt.figure()
+plt.plot(x[-8:], y[-8:])
+
+plt.savefig('./plots/zero_instability_LMM3.pdf',
+            bbox_inches='tight', pad_inches=0.05)
