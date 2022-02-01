@@ -17,7 +17,7 @@ mu_ny3 = (theta_plot**3 - theta_plot) / (7/3 * theta_plot**2 - 2/3 * theta_plot 
 
 methods = [mu_ab3, mu_am3, mu_ny3]
 
-fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(12, 6))
+fig, axes = plt.subplots(nrows=1, ncols=4, figsize=(15, 6))
 for i in range(3):
     axes[i].set_aspect("equal")
 for i, m in enumerate(methods):
@@ -26,5 +26,13 @@ for i, m in enumerate(methods):
     axes[i].spines['right'].set_color('none')
     axes[i].spines['bottom'].set_position('zero')
     axes[i].spines['top'].set_color('none')
+    if i == 2:
+        axes[3].fill(np.real(m), np.imag(m), color="orange", alpha=0.8)
+        axes[3].set_ylim((-0.25, 0.25))
+        axes[3].set_xlim((-0.01, 0.1))
+        axes[3].spines['left'].set_position('zero')
+        axes[3].spines['right'].set_color('none')
+        axes[3].spines['bottom'].set_position('zero')
+        axes[3].spines['top'].set_color('none')
 
 plt.savefig('plots/stability_domains.pdf', bbox_inches='tight', pad_inches=0.05)
